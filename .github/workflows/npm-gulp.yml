@@ -5,7 +5,7 @@ on:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
-    
+
 permissions:
   contents: write
   pages: write
@@ -15,10 +15,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - name: Use Node.js 18
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: 18.x
 
@@ -28,18 +27,17 @@ jobs:
       - name: Build with Gulp
         run: gulp
 
+      # Change 'path' if your output folder is not the repo root (use 'dist', 'public', etc as needed)
       - name: Upload artifact for GitHub Pages
         uses: actions/upload-pages-artifact@v4
         with:
-          path: .   # or (ideally) a build output folder, if you have one
-          
+          path: . # or your build output dir
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v3
+        uses: actions/deploy-pages@v4
